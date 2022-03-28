@@ -2,7 +2,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <sys/mman.h>
+#include <string.h>
 
 
 /*
@@ -63,6 +64,20 @@ int save(point_t *pt, int size, char *filename) {
 
     return 0 ;
 }
+
+/*
+ * @pre filename != NULL, name of the file
+ * @post returns the sum of all integers stored in the binary file.
+ *       return -1 if the file can not be open.
+ *       return -2 if the file can not be closed.
+ *       return -3 if mmap() fails.
+ *       return -4 if munmap() fails.
+ *       return -5 if fstat() fails.
+ */
+int sum_file(char *filename) {
+    
+}
+
 
 int main() {
     char* filename = "FileExists.exe";
