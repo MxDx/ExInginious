@@ -193,7 +193,8 @@ int copy(char *file_name, char *new_file_name) {
     if (fd1 < 0) {
       return -1;
     }
-     int fst =fstat (fd1,&buf);
+
+    int fst =fstat (fd1,&buf);
     if ( fst < 0) {
       return -1;
     }
@@ -221,7 +222,7 @@ int copy(char *file_name, char *new_file_name) {
     if (msync(addr, size, MS_SYNC) == -1 ) return -1;
     if (munmap(addr,size) == -1 ) return -1;
     if (close(f2) == -1 ) return -1;
-    
+
     return 0;
 }
 
