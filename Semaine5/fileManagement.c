@@ -75,7 +75,34 @@ int save(point_t *pt, int size, char *filename) {
  *       return -5 if fstat() fails.
  */
 int sum_file(char *filename) {
+    int fd = open(filename, O_RDONLY);
+    if (fd == -1) return -1; 
+
+    struct stat fileStat; 
+    int fst = fstat(fd, &fileStat);
+    if (fst == -1) return -5;
+
+    int sizeFile = fileStat.st_size;
+    if (sizeFile == 0) {
+        int fc = close(fd);
+        if (fc == -1) return -2;
+        return 0;
+    }
+
+    int rep = 0;
+
+    int* mem = mmap(NULL, sizeFile, PROT_READ, MAP_SHARED, fd, 0);
+    if (mem == MAP_FAILED) return -3;
+
+    for (int i = 0; i < sizeFile/sizeof(int); i++) rep += mem[i];
     
+    int unmap = munmap(mem, sizeFile);
+    if (unmap == -1) return -4;
+
+    int fc = close(fd);
+    if (fc == -1) return -2;
+
+    return rep;
 }
 
 
